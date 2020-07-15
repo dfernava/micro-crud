@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.everis.model.Client;
-import com.proyecto.everis.repository.ClientRepository;
+import com.proyecto.everis.service.IClientService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,31 +23,31 @@ import reactor.core.publisher.Mono;
 public class ClientController {
 	
 	@Autowired
-	private ClientRepository clientRepository;
+	private IClientService clientRepository;
 	
 	@PostMapping
 	Mono<Client> create(@Valid @RequestBody Client client){
-		return clientRepository.save(client);
+		return clientRepository.create(client);
 	}
 	
 	@GetMapping(produces = "application/json")
 	Flux<Client> listAll(){
-		return clientRepository.findAll();
+		return clientRepository.listAll();
 	}
 	
 	@GetMapping(produces = "application/json",value="/{id}")
 	Mono<Client> listById(@PathVariable String id){
-		return clientRepository.findById(id);
+		return clientRepository.finId(id);
 	}
 	
 	@PutMapping
 	Mono<Client> update(@Valid @RequestBody Client client){
-		return clientRepository.save(client);
+		return clientRepository.update(client);
 	}
 	
 	@DeleteMapping(value="/{id}")
 	Mono<Void> deleteById(@PathVariable String id) {
-		return clientRepository.deleteById(id);
+		return clientRepository.delete(id);
 	}
 
 }

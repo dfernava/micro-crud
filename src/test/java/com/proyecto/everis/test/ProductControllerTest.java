@@ -6,10 +6,9 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.proyecto.everis.model.Client;
 import com.proyecto.everis.model.Product;
-import com.proyecto.everis.repository.ProductRepository;
 import com.proyecto.everis.resources.ClientController;
+import com.proyecto.everis.service.impl.ProductServiceImpl;
 
 import reactor.core.publisher.Mono;
 
@@ -20,7 +19,7 @@ public class ProductControllerTest {
 	private WebTestClient webTestClient;
 	
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductServiceImpl productRepository;
 	
 	@Test
 	public void createClient() {
@@ -41,15 +40,15 @@ public class ProductControllerTest {
 	}
 	
 	@Test
-	public void listClient() {
+	public void listProduct() {
 		webTestClient.get().uri("/products")
 				.exchange()
 				.expectStatus().isOk()
 				.expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.expectBodyList(Client.class).hasSize(1);
+				.expectBodyList(Product.class).hasSize(1);
 			     
                
-	}	
+	}
 	
 	@Test
 	public void listOneClient() {
@@ -58,25 +57,25 @@ public class ProductControllerTest {
 	        .expectStatus().isOk()
 	        .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON.toString())
 	        .expectBody()
-	        .jsonPath("$.nameClient").isEqualTo("JUAN");      
+	        .jsonPath("$.nameProduct").isEqualTo("TARJETA VISA");      
 	}
 	
 	@Test
-	public void updateClient() {
+	public void updateProduct() {
 		Product pr=new Product();
 		pr.setId("1");
 		pr.setTypeProduct("CREDITO");
-		pr.setNameProduct("TARJETA MASTERCARD");
-		productRepository.deleteAll().subscribe();
-		 
+		pr.setNameProduct("TARJETA MC");
+		productRepository.deleteAll();
+		
 		webTestClient.put().uri("/products")
-			.contentType(MediaType.APPLICATION_JSON)
-	                 .body(Mono.just(pr), Product.class)
-	                 .exchange()
-	                 .expectStatus().isOk()
-	                 .expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON.toString())
-	                 .expectBody()
-	                 .jsonPath("$.nameProduct").isEqualTo("TARJETA MASTERCARD");      
+		.accept(MediaType.APPLICATION_JSON)
+		.body(Mono.just(pr),Product.class)
+		.exchange()
+		.expectStatus().isOk()
+		.expectHeader().valueEquals("Content-Type", MediaType.APPLICATION_JSON.toString())
+		.expectBody()
+		.jsonPath("$.nameProduct", "TARJETA MC");
 	              
 	}
 	
@@ -97,5 +96,6 @@ public class ProductControllerTest {
         .expectStatus().isOk()
         .expectBody(String.class);
 	}
-
+	
+	
 }

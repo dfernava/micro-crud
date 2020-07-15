@@ -7,8 +7,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import org.springframework.http.MediaType;
 import com.proyecto.everis.model.Client;
-import com.proyecto.everis.repository.ClientRepository;
 import com.proyecto.everis.resources.ClientController;
+import com.proyecto.everis.service.impl.ClientServiceImpl;
 
 import reactor.core.publisher.Mono;
 
@@ -19,7 +19,7 @@ public class ClientControllerTest {
 	private WebTestClient webTestClient;
 	
 	@Autowired
-	private ClientRepository clientRepository;
+	private ClientServiceImpl clientRepository;
 	
 	@Test
 	public void createClient() {

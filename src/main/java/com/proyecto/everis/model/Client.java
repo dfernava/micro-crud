@@ -1,10 +1,13 @@
 package com.proyecto.everis.model;
 
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "client")
 public class Client {
 	
+	@Id
 	private String id;
 	
 	private String typeDoc;
