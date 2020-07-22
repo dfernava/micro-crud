@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.everis.model.Client;
 import com.proyecto.everis.service.IClientService;
 
+import io.swagger.annotations.Api;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("clients")
+@Api(value = "HelloWorld Resource", description = "shows hello world")
 public class ClientController {
 	
 	@Autowired
