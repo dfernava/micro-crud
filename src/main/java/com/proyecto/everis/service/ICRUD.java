@@ -8,7 +8,7 @@ public interface ICRUD <T>{
 	Mono<T> create (T t);
 	Mono<T> update (T t);
 	Mono<Void> delete (String id);
-	Mono<T> finId (String id);
+	Mono<T> findId (String id);
 	Flux<T> listAll();
 	Mono<Void> deleteAll();
 

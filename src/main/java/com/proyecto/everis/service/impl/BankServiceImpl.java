@@ -3,53 +3,53 @@ package com.proyecto.everis.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.proyecto.everis.model.Product;
-import com.proyecto.everis.repository.ProductRepository;
-import com.proyecto.everis.service.IProductService;
+import com.proyecto.everis.model.Bank;
+import com.proyecto.everis.repository.IBankRepository;
+import com.proyecto.everis.service.IBankService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class ProductServiceImpl implements IProductService{
+public class BankServiceImpl implements IBankService  {
 	
 	@Autowired
-	private ProductRepository productRepository;
+	private IBankRepository repository;
 
 	@Override
-	public Mono<Product> create(Product t) {
+	public Mono<Bank> create(Bank t) {
 		// TODO Auto-generated method stub
-		return productRepository.save(t);
+		return repository.save(t);
 	}
 
 	@Override
-	public Mono<Product> update(Product t) {
+	public Mono<Bank> update(Bank t) {
 		// TODO Auto-generated method stub
-		return productRepository.save(t);
+		return repository.save(t);
 	}
 
 	@Override
 	public Mono<Void> delete(String id) {
 		// TODO Auto-generated method stub
-		return productRepository.deleteById(id);
+		return repository.deleteById(id);
 	}
 
 	@Override
-	public Mono<Product> findId(String id) {
+	public Mono<Bank> findId(String id) {
 		// TODO Auto-generated method stub
-		return productRepository.findById(id);
+		return repository.findById(id);
 	}
 
 	@Override
-	public Flux<Product> listAll() {
+	public Flux<Bank> listAll() {
 		// TODO Auto-generated method stub
-		return productRepository.findAll();
+		return repository.findAll();
 	}
 
 	@Override
 	public Mono<Void> deleteAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.deleteAll();
 	}
 
 }

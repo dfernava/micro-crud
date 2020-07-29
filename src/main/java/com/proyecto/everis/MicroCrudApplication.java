@@ -1,5 +1,6 @@
 package com.proyecto.everis;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,8 +13,6 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -24,12 +23,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
+@ComponentScan("com.proyecto.everis.*")
+@EnableJpaRepositories("com.proyecto.everis.*")
 @EnableReactiveMongoRepositories(basePackages = {"com.proyecto.everis.repository","com.proyecto.everis.resource"})
 public class MicroCrudApplication extends AbstractReactiveMongoConfiguration {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MicroCrudApplication.class, args);
 	}
+	
+	@Value("${app.db}")
+	private String db;
+	
 	
 	@Bean
 	public MongoClient mongoClient() {
@@ -38,14 +43,14 @@ public class MicroCrudApplication extends AbstractReactiveMongoConfiguration {
 	
 	@Override
 	protected String getDatabaseName() {
-		return "banco";
+		return db;
 	}
 	
 	@Bean
 	public Docket swaggerPersonApi10() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-					.apis(RequestHandlerSelectors.basePackage("pl.piomin.services.employee.controller"))
+					.apis(RequestHandlerSelectors.basePackage("com.proyecto.everis.resources"))
 					.paths(PathSelectors.any())
 				.build()
 				.apiInfo(new ApiInfoBuilder().version("1.0").title("Employee API").description("Documentation Employee API v1.0").build());

@@ -1,46 +1,25 @@
 package com.proyecto.everis.model;
 
-import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "document")
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+@Document( collection ="product" )
+@Data
+@ApiModel(description = "Clase de la colección de producto, puede ser cuentas o créditos")
 public class Product {
 	
-	@Id
-	private String id;
-	
+	@ApiModelProperty(notes = "ID del producto único")
+	private String id;	
+	@ApiModelProperty(notes = "Nombre comercial del producto")
+	@NotNull
+	private String nameProduct;	
+	@ApiModelProperty(notes = "Tipo de producto: Crédito o cuenta")
+	@NotNull
 	private String typeProduct;
-	
-	private String nameProduct;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getTypeProduct() {
-		return typeProduct;
-	}
-
-	public void setTypeProduct(String typeProduct) {
-		this.typeProduct = typeProduct;
-	}
-
-	public String getNameProduct() {
-		return nameProduct;
-	}
-
-	public void setNameProduct(String nameProduct) {
-		this.nameProduct = nameProduct;
-	}
-
-	
-	
-	
-	
-	
 }

@@ -1,25 +1,44 @@
 package com.proyecto.everis.model;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
-@Document(collection = "client")
-@ApiModel(description = "Información sobre la coleccionde clientes empresariales o personales")
+@Document( collection ="client" )
+@Data
+@ApiModel(description = "Clase de la colección cliente, puede ser personal, personal vip o empresarial")
 public class Client {
-	@ApiModelProperty(notes = "Id colocado cono números enteros en formato string")
-	private String id;
-	@ApiModelProperty(notes = "Tipo de documento de identidad del cliente: DNI, CE, RUC, etc")
-	private String typeDoc;
-	@ApiModelProperty(notes = "Tipo de cliente personal o empresarial")
-	private String typeClient;
-	@ApiModelProperty(notes = "Número del documento seleccionado en typeDoc")
-	private String numDoc;	
-	@ApiModelProperty(notes = "Nombre de cliente o razon social")
-	private String nameClient;
-
+			
+			@ApiModelProperty(notes = "ID del cliente único")
+         private String id;
+			
+			@ApiModelProperty(notes = "Tipo de documento del cliente tal como: DNI, CE, RUC, etc")
+			@NotNull
+         private String typeDoc;
+			
+			@ApiModelProperty(notes = "Nombre completo del cliente personal, nulo en cliente empresarial")
+         private String nameClient;
+			
+			@ApiModelProperty(notes = "Nombre según registro de cliente empresarial, nulo en cliente pesrsonal")
+	     private String razonSocial;
+			
+			@ApiModelProperty(notes = "Número del tipo de documento")
+			@NotNull
+			@Size(min = 8, max = 12, message = "numero de documento minimo 8")
+			@Pattern(regexp = ".*([0-9]$)", message = "Solo debe contener dígitos")
+         private String numDoc;
+			
+			@ApiModelProperty(notes = "Tipo de cliente puede ser empresarial o personal")
+			@NotNull
+         private String typeClient;
+			
+			@ApiModelProperty(notes = "Condición de cliente: personal normal o vip y empresarial mype o corporativo")
+			@NotNull
+	     private String conditionClient;
+		
 }

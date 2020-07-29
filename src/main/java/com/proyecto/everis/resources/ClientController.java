@@ -3,6 +3,7 @@ package com.proyecto.everis.resources;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,45 +12,76 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.proyecto.everis.model.Client;
 import com.proyecto.everis.service.IClientService;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+import com.proyecto.everis.model.Client;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("clients")
-@Api(value = "HelloWorld Resource", description = "shows hello world")
 public class ClientController {
 	
 	@Autowired
-	private IClientService clientRepository;
+	private IClientService repository;
 	
-	@PostMapping
-	Mono<Client> create(@Valid @RequestBody Client client){
-		return clientRepository.create(client);
+	@ApiOperation(
+            value = "Agrega cliente",
+            notes = "El parámetro de de tipo Client.class"
+    )
+	@PostMapping()
+	Mono<ResponseEntity<Client>> create(@Valid @RequestBody Client ClientsStream) {
+		return this.repository.create(ClientsStream)
+				.map(mapper->ResponseEntity.ok(mapper));
 	}
 	
-	@GetMapping(produces = "application/json")
-	Flux<Client> listAll(){
-		return clientRepository.listAll();
+	@ApiOperation(
+            value = "Actualiza cliente",
+            notes = "El parámetro de de tipo Client.class"
+    )
+	@PutMapping()
+	Mono<Client> update(@Valid @RequestBody Client ClientsStream) {
+		return this.repository.create(ClientsStream);
 	}
 	
-	@GetMapping(produces = "application/json",value="/{id}")
-	Mono<Client> listById(@PathVariable String id){
-		return clientRepository.finId(id);
+	@ApiOperation(
+            value = "Lista todo cliente",
+            notes = "No necesita parámetros"
+    )
+	@GetMapping(produces="application/json")
+	Flux<Client> list() {
+		return repository.listAll();
 	}
 	
-	@PutMapping
-	Mono<Client> update(@Valid @RequestBody Client client){
-		return clientRepository.update(client);
+	@ApiOperation(
+            value = "Lista un cliente por id",
+            notes = "El parámetro es de tipo string"
+    )
+	@GetMapping("/{id}")
+	Mono<ResponseEntity<Client>> findById(@PathVariable String id) {
+		return this.repository.findId(id).
+				map(mapper->ResponseEntity.ok(mapper))
+				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
 	
-	@DeleteMapping(value="/{id}")
+	@ApiOperation(
+            value = "Elimina un cliente por id",
+            notes = "El parámetro es de tipo string"
+    )
+	@DeleteMapping("/{id}")
 	Mono<Void> deleteById(@PathVariable String id) {
-		return clientRepository.delete(id);
+		return this.repository.delete(id);
+	}
+	
+	@ApiOperation(
+            value = "Elimina todo lo clientes",
+            notes = "Utilizado para pruebas"
+    )
+	@DeleteMapping
+	Mono<Void> deleteAll() {
+		return this.repository.deleteAll();
 	}
 
 }

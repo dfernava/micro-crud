@@ -35,7 +35,7 @@ public class ClientServiceImpl implements IClientService{
 	}
 
 	@Override
-	public Mono<Client> finId(String id) {
+	public Mono<Client> findId(String id) {
 		// TODO Auto-generated method stub
 		return clientRepository.findById(id);
 	}

@@ -1,0 +1,23 @@
+json Client
+ {
+        "id": "1",
+        "typeDoc": "DNI",
+        "nameClient": "CHEVERIS",
+        "razonSocial": null,
+        "numDoc": "12345678",
+        "typeClient": "PERSONAL",
+        "conditionClient": "NORMAL"
+}
+
+json bank
+{
+        "id": "1",
+        "nameBank": "INTERBANCO"
+}
+
+json product
+ {
+        "id": "1",
+        "nameProduct": "AHORRO",
+        "typeProduct": "CUENTA"
+ }
